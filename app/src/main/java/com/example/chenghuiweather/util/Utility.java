@@ -1,7 +1,7 @@
 package com.example.chenghuiweather.util;
 
+import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.example.chenghuiweather.model.City;
 import com.example.chenghuiweather.model.County;
@@ -80,5 +80,19 @@ public class Utility {
             }
         }
         return false;
+    }
+
+    /**
+     * 将返回的JSON数据解析成Weather实体类
+     */
+    public static Weather handleWeatherResponse(String response) {
+        try {
+            Gson gson = new Gson();
+            Weather data = gson.fromJson(response,Weather.class);
+            return data;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
