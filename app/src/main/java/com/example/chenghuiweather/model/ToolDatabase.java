@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.chenghuiweather.db.WeatherDatabaseHelper;
 
@@ -15,7 +16,7 @@ public class ToolDatabase {
     /**
      * 数据库名
      * */
-    public static final String DB_NAME = "weather";
+    public static final String DB_NAME = "weather.db";
 
     /**
      * 数据库版本
@@ -97,7 +98,7 @@ public class ToolDatabase {
      * */
     public List<City> loadCities(int provinceId){
         List<City> list = new ArrayList<>();
-        Cursor cursor = db.query("City",null,"province_id = ?",
+        Cursor cursor = db.query("City",null,"province_id=?",
                 new String[]{String.valueOf(provinceId)},null,null,null);
         if (cursor.moveToFirst()) {
             do {
@@ -106,6 +107,7 @@ public class ToolDatabase {
                 city.setCityName(cursor.getString(cursor.getColumnIndex("city_name")));
                 city.setCityCode(cursor.getString(cursor.getColumnIndex("city_code")));
                 city.setProvinceId(provinceId);
+                list.add(city);
             } while (cursor.moveToNext());
         }
         if (cursor != null) {
@@ -141,6 +143,7 @@ public class ToolDatabase {
                  county.setCountyName(cursor.getString(cursor.getColumnIndex("county_name")));
                  county.setCountyCode(cursor.getString(cursor.getColumnIndex("county_code")));
                  county.setCityId(cityId);
+                 list.add(county);
              } while (cursor.moveToNext());
          }
          if (cursor != null) {
