@@ -1,9 +1,14 @@
 package com.example.chenghuiweather.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.strictmode.IntentReceiverLeakedViolation;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -18,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.chenghuiweather.R;
+import com.example.chenghuiweather.service.AutoUpdateService;
 import com.example.chenghuiweather.util.Utility;
 import com.example.chenghuiweather.util.Weather;
 
@@ -62,6 +68,10 @@ public class WeatherActivity extends Activity implements View.OnClickListener {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.weather_layout);
         //初始化各控件
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("package com.example.chenghuiweather.activity.FLAG");
+        UpdateReceiver receiver = new UpdateReceiver();
+        registerReceiver(receiver,filter);
         weatherInfoLayout = findViewById(R.id.weather_info_layout);
         cityNameText = findViewById(R.id.city_name);
         publishText = findViewById(R.id.publish_text);
@@ -114,7 +124,8 @@ public class WeatherActivity extends Activity implements View.OnClickListener {
         queue.add(stringRequest);
     }
 
-    private void showWeather(Weather weather) {
+
+    public void showWeather(Weather weather) {
         cityNameText.setText(weather.getHeWeather().get(0).getBasic().getLocation()); //城市名
         temp1Text.setText(weather.getHeWeather().get(0).getNow().getTmp()); //最低温
         temp2Text.setText(weather.getHeWeather().get(0).getNow().getVis()); //最高温
@@ -123,6 +134,8 @@ public class WeatherActivity extends Activity implements View.OnClickListener {
         currentDateText.setText(weather.getHeWeather().get(0).getUpdate().getLoc()); //当前日期
         weatherInfoLayout.setVisibility(View.VISIBLE);
         cityNameText.setVisibility(View.VISIBLE);
+        Intent intent = new Intent(this, AutoUpdateService.class);
+        startService(intent);
     }
 
     /**
@@ -148,6 +161,22 @@ public class WeatherActivity extends Activity implements View.OnClickListener {
             }
             default:
                 break;
+        }
+    }
+
+    public class UpdateReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d("GGG","####");
+            Weather weather = (Weather) intent.getSerializableExtra("weather");
+            cityNameText.setText(weather.getHeWeather().get(0).getBasic().getLocation()); //城市名
+            temp1Text.setText(weather.getHeWeather().get(0).getNow().getTmp()); //最低温
+            temp2Text.setText(weather.getHeWeather().get(0).getNow().getVis()); //最高温
+            weatherDespText.setText(weather.getHeWeather().get(0).getNow().getCond_txt()); //天气描述信息
+            publishText.setText("今天" + weather.getHeWeather().get(0).getUpdate().getUtc() + "发布"); //发布时间
+            currentDateText.setText(weather.getHeWeather().get(0).getUpdate().getLoc()); //当前日期
+            weatherInfoLayout.setVisibility(View.VISIBLE);
+            cityNameText.setVisibility(View.VISIBLE);
         }
     }
 }

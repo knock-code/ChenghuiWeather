@@ -1,8 +1,9 @@
 package com.example.chenghuiweather.util;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Weather {
+public class Weather implements Serializable {
 
     private List<HeWeatherBean> HeWeather;
 
@@ -14,7 +15,7 @@ public class Weather {
         this.HeWeather = HeWeather;
     }
 
-    public static class HeWeatherBean {
+    public static class HeWeatherBean implements Serializable {
         /**
          * basic : {"cid":"CN101101103","location":"兴县","parent_city":"离石","admin_area":"山西","cnty":"中国","lat":"18.2478714","lon":"109.50827026","tz":"+8.00","city":"兴县","id":"CN101101103","update":{"loc":"2021-02-04 21:28","utc":"2021-02-04 13:28"}}
          * update : {"loc":"2021-02-04 21:28","utc":"2021-02-04 13:28"}
@@ -99,7 +100,7 @@ public class Weather {
             this.daily_forecast = daily_forecast;
         }
 
-        public static class BasicBean {
+        public static class BasicBean implements Serializable {
             /**
              * cid : CN101101103
              * location : 兴县
@@ -214,7 +215,7 @@ public class Weather {
                 this.update = update;
             }
 
-            public static class UpdateBean {
+            public static class UpdateBean implements Serializable {
                 /**
                  * loc : 2021-02-04 21:28
                  * utc : 2021-02-04 13:28
@@ -241,7 +242,7 @@ public class Weather {
             }
         }
 
-        public static class UpdateBeanX {
+        public static class UpdateBeanX implements Serializable {
             /**
              * loc : 2021-02-04 21:28
              * utc : 2021-02-04 13:28
@@ -267,7 +268,7 @@ public class Weather {
             }
         }
 
-        public static class NowBean {
+        public static class NowBean implements Serializable {
             /**
              * cloud : 91
              * cond_code : 101
@@ -412,7 +413,7 @@ public class Weather {
                 this.cond = cond;
             }
 
-            public static class CondBean {
+            public static class CondBean implements Serializable {
                 /**
                  * code : 101
                  * txt : 多云
@@ -439,7 +440,7 @@ public class Weather {
             }
         }
 
-        public static class AqiBean {
+        public static class AqiBean implements Serializable {
             /**
              * city : {"aqi":"18","pm25":"0","qlty":"优"}
              */
@@ -454,7 +455,7 @@ public class Weather {
                 this.city = city;
             }
 
-            public static class CityBean {
+            public static class CityBean implements Serializable {
                 /**
                  * aqi : 18
                  * pm25 : 0
@@ -491,7 +492,7 @@ public class Weather {
             }
         }
 
-        public static class SuggestionBean {
+        public static class SuggestionBean implements Serializable {
             /**
              * comf : {"type":"comf","brf":"较不舒适","txt":"白天天气晴好，并且空气湿度偏大，在这种天气条件下，您会感到有些闷热，不很舒适。"}
              * sport : {"type":"sport","brf":"较适宜","txt":"天气较好，较适宜进行各种运动，但考虑气温较高且湿度较大，请适当降低运动强度，并及时补充水分。"}
@@ -526,7 +527,7 @@ public class Weather {
                 this.cw = cw;
             }
 
-            public static class ComfBean {
+            public static class ComfBean implements Serializable {
                 /**
                  * type : comf
                  * brf : 较不舒适
@@ -562,7 +563,7 @@ public class Weather {
                 }
             }
 
-            public static class SportBean {
+            public static class SportBean implements Serializable {
                 /**
                  * type : sport
                  * brf : 较适宜
@@ -598,7 +599,7 @@ public class Weather {
                 }
             }
 
-            public static class CwBean {
+            public static class CwBean implements Serializable {
                 /**
                  * type : cw
                  * brf : 较适宜
@@ -635,7 +636,7 @@ public class Weather {
             }
         }
 
-        public static class DailyForecastBean {
+        public static class DailyForecastBean implements Serializable {
             /**
              * date : 2021-02-05
              * cond : {"txt_d":"多云"}
@@ -670,7 +671,7 @@ public class Weather {
                 this.tmp = tmp;
             }
 
-            public static class CondBeanX {
+            public static class CondBeanX implements Serializable {
                 /**
                  * txt_d : 多云
                  */
@@ -686,7 +687,7 @@ public class Weather {
                 }
             }
 
-            public static class TmpBean {
+            public static class TmpBean implements Serializable {
                 /**
                  * max : 31
                  * min : 22
